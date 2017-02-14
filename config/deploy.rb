@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'mina/rails'
 require 'mina/git'
 # require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
@@ -9,14 +10,15 @@ require 'mina/git'
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-set :application_name, 'foobar'
-set :domain, 'foobar.com'
-set :deploy_to, '/var/www/foobar.com'
-set :repository, 'git://...'
+set :application_name, 'upali'
+set :domain, '51upali.com'
+set :deploy_to, '/var/www/51upali.com'
+set :repository, 'https://github.com/lokiiart/upali.git'
 set :branch, 'master'
 
 # Optional settings:
-#   set :user, 'foobar'          # Username in the server to SSH to.
+  set :user, 'root'          # Username in the server to SSH to.
+  set :term_mode, nil
 #   set :port, '30000'           # SSH port number.
 #   set :forward_agent, true     # SSH forward_agent.
 
@@ -38,7 +40,13 @@ end
 # Put any custom commands you need to run at setup
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task :setup do
-  # command %{rbenv install 2.3.0}
+  command %{mkdir -p "/root/upali"}
+  deploy do
+    invoke :'git:clone'
+    command 'docker-compose up --build  -d'
+    command 'docker-compose exec --user "$(id -u):$(id -g)" website rails db:create' # 重置数据库了，不要乱用
+    command 'docker-compose exec --user "$(id -u):$(id -g)" website rails assets:precompile' # 重置数据库了，不要乱用
+  end
 end
 
 desc "Deploys the current version to the server."
