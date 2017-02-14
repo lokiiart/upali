@@ -40,7 +40,7 @@ const App = ({ children}) => (
         </Link>
         </li>
         <li>
-        <a href="http://pgt.zoosnet.net/LR/Chatpre.aspx?id=PGT57696928&lng=cn">
+        <a href="http://p.qiao.baidu.com/cps/chat?siteId=10338402&userId=23057437">
         <p>咨询</p>
         </a>
         </li>

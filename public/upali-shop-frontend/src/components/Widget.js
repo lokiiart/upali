@@ -3,12 +3,12 @@ import { Link } from 'react-router';
 
 const Widget = () => (
         <div className="widget">
+        <a href="http://p.qiao.baidu.com/cps/chat?siteId=10338402&userId=23057437">
+        <img src="dist/images/widget_1.jpg" />
+        </a>
         <Link to="/order">
         <img src="dist/images/widget_2.jpg" />
         </Link>
-        <a href="http://pgt.zoosnet.net/LR/Chatpre.aspx?id=PGT57696928&lng=cn">
-        <img src="dist/images/widget_1.jpg" />
-        </a>
         </div>
 );
 
