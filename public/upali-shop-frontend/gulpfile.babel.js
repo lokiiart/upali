@@ -29,10 +29,10 @@ const paths = {
   srcCss: 'src/**/*.scss',
   srcImg: 'src/images/**',
   srcLint: ['src/**/*.js', 'test/**/*.js'],
-  dist: 'dist',
-  distJs: 'dist/js',
-  distImg: 'dist/images',
-  distDeploy: './dist/**/*'
+  dist: '../dist',
+  distJs: '../dist/js',
+  distImg: '../dist/images',
+  distDeploy: '../dist/**/*'
 };
 
 const customOpts = {
