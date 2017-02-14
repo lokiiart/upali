@@ -12,7 +12,7 @@ require 'mina/git'
 
 set :application_name, 'upali'
 set :domain, '51upali.com'
-set :deploy_to, '/var/www/51upali.com'
+set :deploy_to, '/root/51upali.com'
 set :repository, 'https://github.com/lokiiart/upali.git'
 set :branch, 'master'
 
@@ -40,7 +40,16 @@ end
 # Put any custom commands you need to run at setup
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task :setup do
-  command %{mkdir -p "/root/upali"}
+  command %{mkdir -p "/root/51upali.com"}
+end
+
+task :first do
+  run :local do
+    command %{git add .}
+    command %{git commit -m "`date`"}
+    command %{git push -u origin master}
+  end
+  invoke :'git:ensure_pushed'
   deploy do
     invoke :'git:clone'
     command 'docker-compose up --build  -d'
