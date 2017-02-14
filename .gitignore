@@ -6,6 +6,7 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
+/.idea
 /.bundle
 
 # Ignore all logfiles and tempfiles.

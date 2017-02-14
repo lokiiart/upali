@@ -71,7 +71,7 @@ let Order = React.createClass( {
             aplipay_form.submit();
         }else if(this.state.payment=="货到付款"){
             nanoajax.ajax({
-                url:'/api/orders',
+                url:'/orders',
                 method:'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -80,7 +80,9 @@ let Order = React.createClass( {
                 body:JSON.stringify(this.state)
             },
                 function(code,responseText,request){
-                    if(code=='200'){
+                    console.log(code);
+                    console.log(responseText);
+                    if(code=='200' || code=='201'){
                         responseText=JSON.parse(responseText);
                         console.dir(responseText);
                         console.log(responseText);
@@ -123,7 +125,7 @@ let Order = React.createClass( {
                 <h3>关注公众号<em>upali4000963983</em>还可享受<br />折上折.</h3>
                 <h3>注意: 本网站由于网络技术问题, 暂时不能够提供购买服务. 烦请移步微信公众号.</h3>
                 </div>
-                <form method="POST" action="/api/alipay_orders" className="pure-form orderForm" onSubmit={e=>this.handleSubmit(e)} target={this.state.form_status}>
+                <form method="POST" action="/alipay_orders" className="pure-form orderForm" onSubmit={e=>this.handleSubmit(e)} target={this.state.form_status}>
                 <fieldset>
                 <legend>产品选择</legend>
                 <RadioGroup name="price" selectedValue={this.state.price} onChange={this.handlePrice}>

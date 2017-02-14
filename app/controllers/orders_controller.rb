@@ -1,5 +1,7 @@
+# coding: utf-8
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
+  protect_from_forgery :except => [:create, :alipay]
 
   # GET /orders
   # GET /orders.json
@@ -24,6 +26,7 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
+    # 更新
     @order = Order.new(order_params)
 
     respond_to do |format|
@@ -61,8 +64,52 @@ class OrdersController < ApplicationController
     end
   end
 
+  def alipay
+    @order = Order.new
+    @order.customer = params[:customer]
+    @order.price = params[:price]
+    @order.phone = params[:phone]
+    @order.address = "测试" + params[:address]
+    @order.payment = params[:payment]
+    @order.notes = params[:notes]
+    if @order.save
+      @alipay_order = {
+        # 'service': 'create_direct_pay_by_user',
+        'service': 'alipay.wap.create.direct.pay.by.user',
+                      'partner': '2088221413889518',
+                      'seller_id': '2088221413889518',
+                      'payment_type': '1',
+                      'out_trade_no': @order.id,
+                      'subject': "优波粒"+@order.price+"套装",
+                      'total_fee': @order.price,
+                      'show_url': 'http://51upali.com',
+                      '_input_charset': 'utf-8'
+      }
+      # @order[:sign] = alipay_sign alipay_order.sort
+      # @alipay_order = {}
+      # @order.instance_variables.each {|var| @alipay_order [var.to_s.delete("@")] = @order.instance_variable_get(var)}
+
+      @alipay_order[:sign] = alipay_sign(@alipay_order.sort)
+
+    else
+
+    end
+    render layout: false, template: 'orders/alipay'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
+    def alipay_sign(order_key)
+      key_list = ""
+      order_key.each do |k, v| 
+        key_list += "#{k}=#{v}&"
+      end
+      md5_key = "h1zyv5kci0tftioi6l4eqc7wgoq6yjv0"
+      sign_string = key_list.chop + md5_key
+      signd_string = Digest::MD5.hexdigest(sign_string)
+      return signd_string
+    end
+
     def set_order
       @order = Order.find(params[:id])
     end
