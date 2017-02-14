@@ -1,11 +1,11 @@
-#upstream app {
-#    # Path to Puma SOCK file, as defined previously
-#    server orats_website_1:3000 fail_timeout=0;
-#}
+upstream app {
+    # Path to Puma SOCK file, as defined previously
+    server upali_website_1:3000 fail_timeout=0;
+}
 
 server {
     listen 80;
-    server_name 51upali.com;
+    server_name _;
 
     root /root/51upali.com/public;
 
