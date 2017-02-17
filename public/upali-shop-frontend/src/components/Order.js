@@ -120,10 +120,8 @@ let Order = React.createClass( {
                 <div className="order-title">
                 <img  src="dist/images/dg.jpg" />
                 <p>
-                支付说明：由于货到付款，顺丰快递要加收5%的服务费用，所以，如果选择货到付款购买我们产品，没有相关优惠。<em>本公司已与支付宝签订战略协议，选择支付宝付款，可享受8折优惠。如需其他支付方式（网银支付/转账汇款/微信支付等）可以我们<a href="http://pgt.zoosnet.net/LR/Chatpre.aspx?id=PGT57696928&lng=cn">在线客服</a>，索取转款账号。谢谢！</em>
+                支付说明：由于货到付款，顺丰快递要加收5%的服务费用，所以，如果选择货到付款购买我们产品，没有相关优惠。<em>本公司已与支付宝签订战略协议，选择支付宝付款，可享受8折优惠。如需其他支付方式（网银支付/转账汇款/微信支付等）可以我们<a href="http://p.qiao.baidu.com/cps/chat?siteId=10366129&userId=23057437">在线客服</a>，索取转款账号。谢谢！</em>
                 </p>
-                <h3>关注公众号<em>upali4000963983</em>还可享受<br />折上折.</h3>
-                <h3>注意: 本网站由于网络技术问题, 暂时不能够提供购买服务. 烦请移步微信公众号.</h3>
                 </div>
                 <form method="POST" action="/alipay_orders" className="pure-form orderForm" onSubmit={e=>this.handleSubmit(e)} target={this.state.form_status}>
                 <fieldset>
