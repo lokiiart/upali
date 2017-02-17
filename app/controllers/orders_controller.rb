@@ -28,6 +28,12 @@ class OrdersController < ApplicationController
   def create
     # 更新
     @order = Order.new(order_params)
+    order_params.each do |v|
+      if rubbish_filter(v)
+        render json: {error: true, message:"下单失败, 请认真填写表单, 不能包含特殊符号."}
+        return
+      end
+    end
 
     respond_to do |format|
       if @order.save
@@ -66,6 +72,12 @@ class OrdersController < ApplicationController
 
   def alipay
     @order = Order.new
+    params.each do |v|
+      if rubbish_filter(v)
+        render plain: "下单失败, 请认真填写表单, 不能包含特殊符号."
+        return
+      end
+    end
     @order.customer = params[:customer]
     @order.price = params[:price]
     @order.phone = params[:phone]
@@ -98,6 +110,12 @@ class OrdersController < ApplicationController
   end
 
   private
+
+    def rubbish_filter(param)
+      rubbish=/[\s+\.\!\/_,$%^*(+\"\']+|[+——！，。？、~@#￥%……&*（）]+/.match(param)
+      return rubbish.nil?
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def alipay_sign(order_key)
       key_list = ""
