@@ -95,7 +95,7 @@ class OrdersController < ApplicationController
     @order.customer = params[:customer]
     @order.price = params[:price]
     @order.phone = params[:phone]
-    @order.address = "测试" + params[:address]
+    @order.address = params[:address]
     @order.payment = params[:payment]
     @order.notes = params[:notes]
     if @order.save
