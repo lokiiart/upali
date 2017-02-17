@@ -36,14 +36,14 @@ let Order = React.createClass( {
 
     handleProvince: function(province,city,area){
         this.setState({
-            province:province,
-            city:city,
-            area:area
+            province:areaData['provinces'][province]['name'],
+            city:areaData['provinces'][province]['citys'][city]['name'],
+            area:areaData['provinces'][province]['citys'][city]['countys'][area]['name']
                       });
     },
 
     handleAddress: function(e){
-        this.setState({address:e.target.value});
+      this.setState({address: this.state.province+this.state.city+this.state.area+this.state.address});
     },
 
     handlePayment: function(value){
@@ -142,7 +142,7 @@ let Order = React.createClass( {
                 <label>姓名<input type="text" name="customer" value={this.state.customer} onChange={this.handleCustomer}  /></label><br />
                 <label>手机<input type="text" name="phone" value={this.state.phone} onChange={this.handlePhone}  /></label><br />
                 <label>地址</label><AreaSelector data={data} options={AreaOptions} onProvinceChange={this.handleProvince} /><br />
-                <label>详细地址<br /><input type="text" name="address" value={this.state.address} onChange={this.handleAddress} /></label>
+                <label>详细地址<br /><textarea className="form-textarea" name="address" value={this.state.address} onChange={this.handleAddress} /></label>
                 </fieldset>
                 <fieldset>
                 <legend>付款方式</legend>

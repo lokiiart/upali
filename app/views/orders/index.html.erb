@@ -5,6 +5,8 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>日期</th>
+      <th>时间</th>
       <th>Customer</th>
       <th>Price</th>
       <th>Phone</th>
@@ -16,8 +18,10 @@
   </thead>
 
   <tbody>
-    <% @orders.each do |order| %>
+    <% @orders.reverse_each do |order| %>
       <tr>
+        <td><%= order.updated_at.strftime("%Y-%m-%d") %></td>
+        <td><%= order.updated_at.strftime("%H:%M:%S") %></td>
         <td><%= order.customer %></td>
         <td><%= order.price %></td>
         <td><%= order.phone %></td>

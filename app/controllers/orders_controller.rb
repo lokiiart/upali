@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   protect_from_forgery :except => [:create, :alipay]
 
+
   # GET /orders
   # GET /orders.json
   def index
@@ -27,13 +28,20 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     # 更新
-    @order = Order.new(order_params)
-    order_params.each do |v|
+    if params[:customer].nil? && params[:phone].nil? && params[:address].nil?
+      render json: {error: true, message:"下单失败, 请认真填写表单, 姓名,手机,地址不能为空."}
+      return
+    end
+
+
+    order_params.each do |k, v|
       if rubbish_filter(v)
         render json: {error: true, message:"下单失败, 请认真填写表单, 不能包含特殊符号."}
         return
       end
     end
+
+    @order = Order.new(order_params)
 
     respond_to do |format|
       if @order.save
@@ -71,13 +79,19 @@ class OrdersController < ApplicationController
   end
 
   def alipay
-    @order = Order.new
     params.each do |v|
       if rubbish_filter(v)
         render plain: "下单失败, 请认真填写表单, 不能包含特殊符号."
         return
       end
     end
+
+    if params[:customer].nil? && params[:phone].nil? && params[:address].nil?
+      render plain: "下单失败, 请认真填写表单, 姓名,手机,地址不能为空."
+      return
+    end
+
+    @order = Order.new
     @order.customer = params[:customer]
     @order.price = params[:price]
     @order.phone = params[:phone]
@@ -112,8 +126,8 @@ class OrdersController < ApplicationController
   private
 
     def rubbish_filter(param)
-      rubbish=/[\s+\.\!\/_,$%^*(+\"\']+|[+——！，。？、~@#￥%……&*（）]+/.match(param)
-      return rubbish.nil?
+      rubbish=/[\.\!\/_,$%^*(+\"\']+|[+——！，。？、~@#￥%……&*（）=]+/.match(param)
+      return !rubbish.nil?
     end
 
     # Use callbacks to share common setup or constraints between actions.
