@@ -27,8 +27,8 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    # 更新
-    if params[:customer].nil? && params[:phone].nil? && params[:address].nil?
+
+    if params[:customer].blank? || params[:phone].blank? || params[:address].blank?
       render json: {error: true, message:"下单失败, 请认真填写表单, 姓名,手机,地址不能为空."}
       return
     end
@@ -79,16 +79,16 @@ class OrdersController < ApplicationController
   end
 
   def alipay
-    params.each do |v|
+    if params[:customer].blank? || params[:phone].blank? || params[:address].blank?
+      render plain: "下单失败, 请认真填写表单, 姓名,手机,地址不能为空."
+      return
+    end
+
+    params.each do |k, v|
       if rubbish_filter(v)
         render plain: "下单失败, 请认真填写表单, 不能包含特殊符号."
         return
       end
-    end
-
-    if params[:customer].nil? && params[:phone].nil? && params[:address].nil?
-      render plain: "下单失败, 请认真填写表单, 姓名,手机,地址不能为空."
-      return
     end
 
     @order = Order.new
@@ -116,11 +116,9 @@ class OrdersController < ApplicationController
       # @order.instance_variables.each {|var| @alipay_order [var.to_s.delete("@")] = @order.instance_variable_get(var)}
 
       @alipay_order[:sign] = alipay_sign(@alipay_order.sort)
-
-    else
-
+      render layout: false, template: 'orders/alipay'
+      return
     end
-    render layout: false, template: 'orders/alipay'
   end
 
   private

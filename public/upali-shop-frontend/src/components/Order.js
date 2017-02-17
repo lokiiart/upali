@@ -43,6 +43,10 @@ let Order = React.createClass( {
     },
 
     handleAddress: function(e){
+      this.setState({address: e.target.value});
+    },
+
+    addAddress: function(){
       this.setState({address: this.state.province+this.state.city+this.state.area+this.state.address});
     },
 
@@ -142,7 +146,7 @@ let Order = React.createClass( {
                 <label>姓名<input type="text" name="customer" value={this.state.customer} onChange={this.handleCustomer}  /></label><br />
                 <label>手机<input type="text" name="phone" value={this.state.phone} onChange={this.handlePhone}  /></label><br />
                 <label>地址</label><AreaSelector data={data} options={AreaOptions} onProvinceChange={this.handleProvince} /><br />
-                <label>详细地址<br /><textarea className="form-textarea" name="address" value={this.state.address} onChange={this.handleAddress} /></label>
+                <label>详细地址<br /><textarea className="form-textarea" name="address" value={this.state.address} onChange={this.handleAddress} onBlur={this.addAddress} /></label>
                 </fieldset>
                 <fieldset>
                 <legend>付款方式</legend>
