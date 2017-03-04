@@ -5,7 +5,7 @@ upstream app {
 
 server {
     listen 80;
-    server_name _;
+    server_name 51upali.com;
 
     root /var/www/51upali.com/public;
 
