@@ -11,7 +11,7 @@ require 'mina/git'
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :application_name, 'upali'
-set :domain, '51upali.com'
+set :domain, 'pin-pin.com'
 set :deploy_to, '/root/51upali.com'
 set :repository, 'https://github.com/lokiiart/upali.git'
 set :branch, 'master'
